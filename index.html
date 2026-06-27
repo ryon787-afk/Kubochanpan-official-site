@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="くぼちゃんパン公式サイト。自家製牛乳を使ったパンと公式通販のご案内。">
+  <title>くぼちゃんパン</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="header">
+  <div class="header-inner">
+    <a class="logo" href="index.html"><span data-site-title>くぼちゃんパン</span><small>Kubochan Pan</small></a>
+    <nav class="nav"><a href="#story">ストーリー</a><a href="#products">商品</a><a href="#shop">通販</a><a href="#store">店舗情報</a><a href="order.html">注文</a></nav>
+    <a class="btn sub" href="order.html">注文する</a>
+  </div>
+</header>
+<main>
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <span class="badge">石川県七尾市のパン屋さん</span>
+        <h1 id="hero-title">ミルク屋さんが本気で作った、毎日食べたいパン。</h1>
+        <p class="lead" id="hero-subcopy">自家製牛乳と北海道産小麦で、毎日の食卓にやさしいおいしさを届けます。</p>
+        <div class="toolbar"><a class="btn" href="#products">商品を見る</a><a class="btn sub" href="order.html">公式通販へ</a><a class="btn soft" id="instagram-link" target="_blank" rel="noopener">Instagram</a></div>
+      </div>
+      <div class="hero-img" id="hero-image">商品写真を管理画面から登録できます</div>
+    </div>
+  </section>
+  <section class="section" id="story"><div class="container two"><div><h2 class="section-title" id="story-title"></h2><div class="rich" id="story-body"></div></div><div class="image-card" id="main-image">メイン画像</div></div></section>
+  <section class="section alt"><div class="container"><h2 class="section-title">お知らせ</h2><div id="notice-list"></div></div></section>
+  <section class="section" id="products"><div class="container"><h2 class="section-title" id="product-title"></h2><div class="rich" id="product-body"></div><div class="grid" id="product-list"></div></div></section>
+  <section class="section alt" id="shop"><div class="container"><h2 class="section-title" id="shop-title"></h2><div class="rich" id="shop-body"></div><div id="banner-list"></div><div class="toolbar"><a class="btn" href="order.html">注文ページへ進む</a></div></div></section>
+  <section class="section" id="store"><div class="container"><h2 class="section-title">店舗情報</h2><div class="card"><p id="store-info"></p><p><strong>営業時間：</strong><span id="business-hours"></span></p><p><strong>通販案内：</strong><span id="shop-guide"></span></p></div></div></section>
+</main>
+<footer class="footer"><p id="footer-text"></p></footer>
+<script src="js/storage.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
