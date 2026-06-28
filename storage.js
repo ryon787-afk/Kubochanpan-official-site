@@ -180,3 +180,36 @@ function sendOrderNotification(orderData){
 }
 
 window.KuboStorage = { ORDER_STATUSES, defaultData, loadData, saveData, resetData, loadCart, saveCart, clearCart, generateId, yen, escapeHTML, safeHTML, saveImageFiles, sendOrderNotification };
+
+
+/* --- 2026追加：Supabase注文保存準備 --- */
+(function(){
+  const oldLoad=window.KuboStorage.loadData;
+  const oldSave=window.KuboStorage.saveData;
+  window.KuboStorage.loadData=function(){
+    const d=oldLoad();
+    d.settings=d.settings||{};
+    d.settings.supabase=Object.assign({enabled:false,url:'',anonKey:'',ordersTable:'orders'},d.settings.supabase||{});
+    return d;
+  };
+  window.KuboStorage.saveData=function(data){
+    data=data||{};data.settings=data.settings||{};
+    data.settings.supabase=Object.assign({enabled:false,url:'',anonKey:'',ordersTable:'orders'},data.settings.supabase||{});
+    return oldSave(data);
+  };
+  window.KuboStorage.saveOrderToSupabase=async function(orderData){
+    const data=window.KuboStorage.loadData();const s=data.settings.supabase||{};
+    if(!s.enabled||!s.url||!s.anonKey)return false;
+    const endpoint=String(s.url).replace(/\/$/,'')+'/rest/v1/'+(s.ordersTable||'orders');
+    const payload={order_number:orderData.orderNumber,order_data:orderData,status:orderData.status,total:orderData.total,created_at:orderData.createdAt};
+    const res=await fetch(endpoint,{method:'POST',headers:{apikey:s.anonKey,Authorization:'Bearer '+s.anonKey,'Content-Type':'application/json',Prefer:'return=minimal'},body:JSON.stringify(payload)});
+    if(!res.ok)throw new Error('Supabaseへの注文保存に失敗しました');
+    return true;
+  };
+  window.KuboStorage.saveOrder=async function(orderData){
+    const used=await window.KuboStorage.saveOrderToSupabase(orderData);
+    const data=window.KuboStorage.loadData();
+    if(!used){data.orders.unshift(orderData);}else{data.notifications.unshift({id:window.KuboStorage.generateId('notice'),type:'order',createdAt:new Date().toISOString(),to:data.settings.adminEmail||'Supabase',title:'新規注文 '+orderData.orderNumber,message:'Supabaseへ注文を保存しました。合計 '+window.KuboStorage.yen(orderData.total),orderNumber:orderData.orderNumber});}
+    window.KuboStorage.saveData(data);return used;
+  };
+})();

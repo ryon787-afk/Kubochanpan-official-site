@@ -28,3 +28,8 @@ function renderSite(){
 }
 function addToCart(id){ const data=S.loadData(); const product=data.products.find(p=>p.id===id); if(!product) return; const cart=S.loadCart(); const found=cart.find(i=>i.id===id); if(found) found.qty++; else cart.push({id:product.id,name:product.name,price:product.price,qty:1}); S.saveCart(cart); location.href='order.html'; }
 document.addEventListener('DOMContentLoaded', renderSite);
+
+
+/* --- 2026追加：カート追加ポップアップ --- */
+function showToast(msg){const t=document.getElementById('toast');if(!t)return;t.textContent=msg;t.classList.add('show');clearTimeout(t._timer);t._timer=setTimeout(()=>t.classList.remove('show'),1800);}
+addToCart=function(id){const data=S.loadData();const product=data.products.find(p=>p.id===id);if(!product)return;const cart=S.loadCart();const found=cart.find(i=>i.id===id);if(found)found.qty++;else cart.push({id:product.id,name:product.name,price:product.price,qty:1});S.saveCart(cart);showToast('カートに追加しました');setTimeout(()=>{location.href='order.html';},650);};
